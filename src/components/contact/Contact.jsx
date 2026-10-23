@@ -1,44 +1,43 @@
 import React, {useState} from 'react';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    mobile: '',
-    email: '',
-    xyz: '',
-    enquiry: ''
-  });
+  const [result, setResult] = useState("");
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    formData.append("access_key", "495154a6-4c63-4f19-9f2d-6fc65f3d45b5");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+    setResult(data.success ? "Success!" : "Error");
+    if (data.success) {
+      form.reset();
+    }
   };
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <form action="" onSubmit={onSubmit}>
               <div className="row">
                 <div className="col-lg-6 col-md-12">
-                  <input type="text" name='name' className="form-control" placeholder='Full Name' value={formData.name} onChange={handleInputChange} />
+                  <input type="text" name='name' className="form-control" placeholder='Full Name' required />
                 </div>
                 <div className="col-lg-6 col-md-12">
-                  <input type="text" name='mobile' className="form-control" placeholder='Phone No.' value={formData.mobile} onChange={handleInputChange} />
+                  <input type="tel" name='mobile' className="form-control" placeholder='Phone No.' required />
                 </div>
-                <div className="col-lg-6 col-md-12">
-                  <input type="text" name='email' className="form-control" placeholder='Email' value={formData.email} onChange={handleInputChange} />
-                </div>
-                <div className="col-lg-6 col-md-12">
-                  <input type="text" className="form-control" name="xyz" placeholder='Full Name' value={formData.xyz} onChange={handleInputChange} />
+                <div className="col-md-12">
+                  <input type="mail" name='email' className="form-control" placeholder='Email' required />
                 </div>
                 <div className="col-lg-12 col-md-12">
-                  <textarea name="enquiry" id="" placeholder='Your Message' value={formData.enquiry} onChange={handleInputChange}></textarea>
+                  <textarea name="enquiry" id="" placeholder='Your Message' required></textarea>
                 </div>
                 <div className="col-lg-12 col-md-12">
                   <div className='submit-btn'><button type="submit">send message</button></div>
+                  <p style={{color: '#62c557', marginTop:'10px', fontWeight:'700', position:'absolute'}}>{result}</p>
                 </div>
               </div>
             </form>
