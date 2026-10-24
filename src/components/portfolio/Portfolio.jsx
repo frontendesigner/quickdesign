@@ -103,7 +103,7 @@ const MyTabsComponent = () => {
                     </div>
                   </div>
                   <div className="explore">
-                    <a href="https://train.getilearn.org/" target="_blank" rel="noopener noreferrer" className='btn-two'>visit now</a>
+                    <a href="https://traingetilearnorg.vercel.app/" target="_blank" rel="noopener noreferrer" className='btn-two'>visit now</a>
                   </div>
                 </div>
                 <div className="projectGrid__Items">
